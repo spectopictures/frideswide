@@ -1,0 +1,467 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+<style>
+ /* unvisited link */
+a:link {
+    color: #000;
+	text-decoration:none;
+}
+
+/* visited link */
+a:visited {
+    color: #000;
+	text-decoration:none;
+}
+
+/* mouse over link */
+a:hover {
+    color: #000;
+	text-decoration:none;
+}
+
+/* selected link */
+a:active {
+    color: #000;
+	text-decoration:none;
+}
+
+</style>
+<title> Quiz - pharMaxology Beta 0.2</title>
+<link href="http://spectopictures.com/assets/FW/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://spectopictures.com/assets/FW/js/jquery-1.11.0.min.js"></script>
+<!-- Custom Theme files -->
+<link href="http://spectopictures.com/assets/FW/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="http://spectopictures.com/assets/FW/js/move-top.js"></script>
+
+	<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+	</script>
+
+
+   
+<script>
+//TODO
+
+
+
+//X Find out why there are 3 GET requests dfrom this template
+//X Perhaps some kind of nice shuffle??? for Safari compatibility and stuff?
+
+
+//END TODO
+
+
+  $( document ).ready(function() {
+	  
+
+function totalScore(){
+var totalResult="";
+{%for z in names%}
+totalResult=totalResult.concat("ans{{z[0]+1}}!");
+totalResult=totalResult.concat(ansScore{{z[0]+1}});
+totalResult=totalResult.concat(",");
+{%endfor%}
+$("#nextQuiz").val(totalResult); 
+$("#nextQuiz1").val(totalResult);
+}
+	  
+	  
+	   $(".shuffledv").each(function () {
+        // Remove all divs within, store in $d
+        var $d = $(this).find("div").remove();
+        // Sort $d randomnly
+        $d.sort(function () { return Math.floor(Math.random() * $d.length); });
+        // Append divs within $d to .shuffledv again
+        $d.appendTo(this);
+    });
+	
+	
+	
+	
+	   var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', 'http://spectopictures.com/assets/pharMaxology/img/wav/wrong.mp3');
+        audioElement.load()
+
+        $.get();
+
+        audioElement.addEventListener("load", function() {
+            //audioElement.play();
+        }, true);
+
+        $('.play').click(function() {
+            audioElement.play();
+        });
+
+       var audioElement1 = document.createElement('audio');
+        audioElement1.setAttribute('src', 'http://spectopictures.com/assets/pharMaxology/img/wav/good.mp3');
+        audioElement1.load()
+
+        $.get();
+
+        audioElement1.addEventListener("load", function() {
+            //audioElement.play();
+        }, true);
+
+		
+		 var audioElement2 = document.createElement('audio');
+        audioElement2.setAttribute('src', 'http://spectopictures.com/assets/pharMaxology/img/wav/win.mp3');
+        audioElement2.load()
+
+        $.get();
+
+        audioElement2.addEventListener("load", function() {
+            //audioElement.play();
+        }, true);
+
+     
+	var totalProgress=0;
+	  
+	  
+{% set p=1%}
+{%for z in names%}
+{% if z[0]!=names[0][0] %}
+	$( "#tag{{z[0]}}" ).hide();
+{%endif%}
+  var ansScore{{z[0]+1}}=0;
+  
+{%for sub in range(4) %}
+  $( "#ans{{z[0]}}-{{sub+1}}" ).click(function() {
+   audioElement.play();
+	ansScore{{z[0]+1}}=ansScore{{z[0]+1}}-1;
+	totalScore();
+	$('#error').show("slow",0).delay(2000).hide("slow",0);
+
+  });
+  
+  
+{%endfor%}
+
+$( "#ansA{{z[0]}}" ).click(function() {
+			ansScore{{z[0]+1}}++;
+	totalScore();
+			totalProgress=totalProgress+(100/{{numbers}})
+		  $("#myBar").css( "width", totalProgress+"%" );
+  $("#percentageT").text(Math.floor(totalProgress)+"%");
+		audioElement1.play();
+		$('#good').show("slow",0).delay(2000).hide("slow",0);
+ $( "#tag{{z[0]}}" ).hide( "drop", function() {
+    // Animation complete.
+  }); 
+{% if p<numbers%}
+ $( "#tag{{names[p][0]}}" ).show( "slide", function() {
+    // Animation complete.
+  });
+{% endif%}
+  if (Math.floor(totalProgress)==100){
+totalScore();
+
+
+audioElement2.play();
+ $( "#tag10" ).show( "slide", function() {
+    // Animation complete.
+
+  });
+}
+else{
+//alert(totalProgress);
+}
+
+});
+  
+
+{% set p=p+1 %}
+{%endfor%}
+
+  //END END END
+  
+  
+  	
+
+
+    });
+	
+	</script>
+	
+
+</head>
+<body>
+<!--header start here-->
+<div class="header">
+	<h3 class="main-head" style="color: #a31329;">pharMaxology<br><small><small><em>powered by Frideswide (CC3:by)</em></small></small></h3>
+
+	  <div class="progress" style="height:5%;">
+  <div class="progress-bar" style="width: 40%;"></div>
+
+  </div>
+  <div id="myProgress" style="position: relative;
+    width: 100%;
+	 border-radius: 25px;
+    height: 30px;
+	margin-top:0px;
+    background-color: grey;">
+    <div id="myBar" style=" position: absolute;
+    width: 0%;
+	 border-radius: 25px;
+    height: 100%;
+    background-color: #a31329;"><span id="percentageT" style="color:#fff; margin-left: 5%;">&nbsp;0%</span></div>
+	<br><br>
+	      <div class="clearfix"> </div>
+<!--header bottom start here-->
+	    <div class="header-bottom">
+	    	<div class="col-md-4 header-bot-left">
+<div style="margin-top:0px;" class="weather">
+                 	<div  style="background:#a82337;" class="col-md-5 cloud-img">
+                 		<img src="http://spectopictures.com/assets/FW/images/fw.png" alt="">
+                 		<p>Frideswide</p>
+                 	</div>
+                 	<div class="col-md-7 tempara">
+				      
+							   <div class="weather-text" style="margin-top:-3em;"><br>
+									I picked for you:{{numbers}}<br> <img src="http://spectopictures.com/assets/FW/images/green.png">{{(methods0[0][0][0])}}
+<img src="http://spectopictures.com/assets/FW/images/red.png">{{(methods0[0][0][1])}}
+<img src="http://spectopictures.com/assets/FW/images/random.png">{{(methods0[0][0][2])}}
+
+<em><a style="color:#a82337;" href="#">
+<form name="FWFood" action="/hello" method="POST">
+<input id="nextQuiz1" hidden="hidden" name="FWFoodContent" type="text" value="OK">
+<input hidden="hidden" name="methodsDefinitions0" type="text" value="{{methodsDefinitions0}}">
+<input  hidden="hidden" name="methods0" type="text" value="{{methods0[0]}}">
+<input style="height:2em; width:20em; color:#000;" type="submit" value="Do you want to try something else?"></center>
+<br><br>
+</form>
+
+</a></em>
+									
+								</div>
+							
+						
+			
+                 	</div>
+                   <div class="clearfix"> </div>
+
+	    		  
+<!--user-profile start here-->
+
+<div class="mountain-img" style="background: url(http://spectopictures.com/assets/FW/images/{{quizData[3]}}.jpg)no-repeat;
+  min-height: 445px;
+  background-size: cover;
+  padding:22.5em 0em 0em 0em;">
+                	<div class="mountain-strip">
+	                	<div class="col-md-6 moutain-follow">
+	                		<span class="red-heart"> </span>
+	                		<p>{{quizData[1]}}</p>
+	                	</div>
+	                	<div class="col-md-6 moutain-follow">
+	                		<span class="gree-download"> </span>
+	                		<p>{{quizData[2]}}</p>
+	                	</div>
+	                	<div class="clearfix"> </div>
+                  </div>
+</div>
+	    		<div class="user-profile">
+	    			
+
+	    		</div>
+	  
+</div>
+
+<!--user-profile end here-->
+<!--ring states start here-->
+                
+<!--alaram start here-->
+                
+<!--alaram end here-->
+<!--weather start here-->
+                 
+                   <div class="clearfix"> </div>
+                 
+<!--weather end here-->
+
+<!--mountain-img start here-->
+                
+               </div>
+	    	</div>
+<!--header-bot-right start here-->
+
+	    	<div class="col-md-8 header-bot-right">
+
+<!--analytic start here-->
+	    		  
+
+	    		
+	    		<div class="analytic">
+	    			<div class="analytic-top">
+
+	    				
+	    			  
+	    				
+					<div class="analytic-bottom">
+
+<div id="qwerty">&nbsp;</div>
+
+
+
+
+
+{%for z in names%}
+
+
+<div id="tag{{z[0]}}">
+<h1 id="q" style="color:#3f3f3f;">{{z[1]}} is used for:</h1>
+<br><br>
+
+		
+ <div class="row" style="height:50%;">
+       
+		<div class="shuffledv">
+{%if z[2] %}
+          <div class="tile" style="height:5em">
+
+		  <a id="ansA{{z[0]}}" href="#" style="a:hover: color:#fff;">
+            <img src="http://spectopictures.com/assets/pharMaxology/img/icons/png/A.png" style="width:5%; margin-right:2.5%; float:left;">
+          <span class="tile-title" style="color:#3f3f3f; font-size:18px;">{{z[2]}}</span><br>
+			
+		
+			</a>
+		
+          </div>
+       <div class="clearfix"> </div>
+                 
+
+{%else%}
+
+{%endif%}
+		
+{% set subnumber=0 %}		
+{%for y in z[3] %}
+        {% set subnumber= subnumber+1 %}
+          <div class="tile" style="height:5em">
+		  <a id="ans{{z[0]}}-{{subnumber}}" href="#" style="a:hover: color:#fff;">
+            <img src="http://spectopictures.com/assets/pharMaxology/img/icons/png/A.png" style="width:5%; margin-right:2.5%; float: left;">
+ <span class="tile-title" style="color:#3f3f3f; font-size:18px;">{{y}}</h4></span><br>
+			
+			</a>
+          </div>
+<div class="clearfix"> </div>
+                
+        {%endfor%}
+	
+		
+	
+	
+	    </div>
+
+</div>	
+</div>
+
+
+{%endfor%}
+
+
+<div id="tag10" style="display:none;">
+<center>
+<img src="http://spectopictures.com/assets/FW/images/check-icon.png"><br><br>
+<h1 style="color:#3f3f3f">Well done!</h1>
+<h4 style="color:#3f3f3f">You're finally learning something!</h4></center><br>
+<form name="FWFood" action="/hello" method="POST">
+<input id="nextQuiz" hidden="hidden" name="FWFoodContent" type="text" value="OK">
+<input hidden="hidden" name="methodsDefinitions0" type="text" value="{{methodsDefinitions0}}">
+<input  hidden="hidden" name="methods0" type="text" value="{{methods0[0]}}">
+<center><div style="height:4em; width:50%; padding-top:1em; font-size:20px;  background:#a82337;"><input style="height:2em; width:20em; color:#000;" type="submit" value="Next Quiz!"></center>
+</div><br><center><br>
+</form>
+</div>
+
+						           
+ <center> <div id="good" style="display:none;  width:100%; background:#098000; color:#fff; font-size:14px;"><br>Great answer, well done! Try this one!<br><br></div></center>
+<center> <div id="error" style="display:none;  width:100%; background:#a31329; color:#fff; font-size:14px; "><br>Wrong answer, try again!!!<br><br></div></center>
+
+					</div>
+			 </div>
+<!--banner start here-->
+	    		
+<!--part1 start here-->
+                <div class="bar-kit">
+
+									<div class="clearfix"> </div>
+									</section>
+                              </div>
+                         </div>
+
+	    			  <div class="clearfix"> </div>
+	    			</div>
+	    		</div>
+	    		 <div class="clearfix"> </div>
+	      </div>
+	  </div>
+   <div class="clearfix"> </div>
+</div>
+ <div class="clearfix"> </div>
+</div>
+        <div class="copy-right">
+			   
+		        <script type="text/javascript">
+										$(document).ready(function() {
+											/*
+											var defaults = {
+									  			containerID: 'toTop', // fading element id
+												containerHoverID: 'toTopHover', // fading element hover id
+												scrollSpeed: 1200,
+												easingType: 'linear' 
+									 		};
+											*/
+											
+											$().UItoTop({ easingType: 'easeOutQuart' });
+											
+										});
+									</script>
+						<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+
+		   </div>
+<!--header bottom end here-->
+<!--header end here-->
+
+  <head>
+
+
+  
+
+  </head>     
+
+
+    <div class="container" style="width:50%; margin:auto;">
+
+		
+
+      
+        
+
+
+    <!-- /.container -->
+
+
+
+
+</div>
+  </body>
+</html>
+
+
+
+
+
